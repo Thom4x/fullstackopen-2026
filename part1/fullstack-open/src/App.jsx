@@ -5,13 +5,18 @@ import Total from './components/total.jsx'
 
 const App = () => {
   const curso = 'Desarrollo Web'
-  const parte1 = "Fundamentos de Programacion"
-  const ejercicios1 = 11
-  const parte2 = 'Preparacion de Comidas Avanzadas'
-  const ejercicios2 = 14
-  const parte3 = 'Electiva 3'
-  const ejercicios3 = 18
-
+  const parte1 = {
+    nombre: "Fundamentos de Programacion",
+    ejercicios: 11
+  }
+  const parte2 = {
+    nombre: "Preparacion de Comidas Avanzadas",
+    ejercicios: 14
+  }
+  const parte3 = {
+    nombre: 'Electiva 3',
+    ejercicios: 18
+  }
   return (
     <div>
       <Header titulo={curso} />
