@@ -1,13 +1,13 @@
 import React from 'react'
 import Part from './part.jsx'
 
-const Content = (props) => {
+const Content = ({ parts }) => {
 
     return (
         <div>
-            <Part parteCurso={props.parte1} numeroEjercicios={props.ejercicios1} />
-            <Part parteCurso={props.parte2} numeroEjercicios={props.ejercicios2} />
-            <Part parteCurso={props.parte3} numeroEjercicios={props.ejercicios3} />
+            <Part parteCurso={parts[0].nombre} numeroEjercicios={parts[0].ejercicios} />
+            <Part parteCurso={parts[1].nombre} numeroEjercicios={parts[1].ejercicios} />
+            <Part parteCurso={parts[2].nombre} numeroEjercicios={parts[2].ejercicios} />
 
         </div>
     )
