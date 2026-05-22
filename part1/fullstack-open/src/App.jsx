@@ -8,6 +8,19 @@ const Button = ({ onclick, text }) => {
   )
 }
 
+const Stadistics = ({ good, neutral, bad, feedback, feedbackAverage, goodPercentage }) => {
+  return (
+    <div>
+      <p>good {good}</p>
+      <p>neutral {neutral}</p>
+      <p>bad {bad}</p>
+      <p>all {feedback}</p>
+      <p>average {feedbackAverage}</p>
+      <p>positive {goodPercentage}%</p>
+    </div>
+  )
+}
+
 
 const App = () => {
   // guarda los clics de cada botón en su propio estado
@@ -43,7 +56,7 @@ const App = () => {
   const badFeedbacks = feedback.filter((score) => score == -1);
 
   const totalFiltered = goodFeedbacks.length + neutralFeedbacks.length + badFeedbacks.length;
-  const goodPercent = (goodFeedbacks.length / totalFiltered) * 100;
+  const goodPercentage = (goodFeedbacks.length / totalFiltered) * 100;
 
   return (
     <div>
@@ -54,12 +67,13 @@ const App = () => {
         <Button onclick={() => handleParams("bad")} text="bad" />
       </div>
       <h1>statistics</h1>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {feedback.length}</p>
-      <p>average {isNaN(feedbackAverage) ? '0' : feedbackAverage.toFixed(2)}</p>
-      <p>positive {isNaN(goodPercent) ? '0' : goodPercent.toFixed(2)}%</p>
+      <Stadistics
+        good={good}
+        bad={bad}
+        neutral={neutral}
+        feedback={feedback.length}
+        feedbackAverage={isNaN(feedbackAverage) ? 0 : feedbackAverage.toFixed(2)}
+        goodPercentage={isNaN(goodPercentage) ? 0 : goodPercentage.toFixed(2)} />
     </div>
   )
 }
