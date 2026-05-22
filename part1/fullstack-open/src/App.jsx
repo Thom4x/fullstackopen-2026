@@ -1,32 +1,49 @@
 import React from 'react'
-import Header from './components/header.jsx'
-import Content from './components/content.jsx'
-import Total from './components/total.jsx'
+import { useState } from 'react'
+
+
+const Button = ({ onclick, text }) => {
+  return (
+    <button onClick={onclick}>{text}</button>
+  )
+}
+
 
 const App = () => {
-  const curso = {
-    nombreCurso: "Half Stack application development",
-    parts: [
-      {
-        nombre: "Fundamentos de Programacion",
-        ejercicios: 11
-      },
-      {
-        nombre: "Preparacion de Comidas Avanzadas",
-        ejercicios: 14
-      },
-      {
-        nombre: 'Electiva 3',
-        ejercicios: 18
-      }
-    ]
+  // guarda los clics de cada botón en su propio estado
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+
+  const handleParams = (statusValoration) => {
+    if (statusValoration === "good") {
+      setGood(good + 1)
+      console.log("Presionaron good")
+    }
+    if (statusValoration === "neutral") {
+      setNeutral(neutral + 1)
+      console.log("Presionaron neutral")
+    }
+    if (statusValoration === "bad") {
+      setBad(bad + 1)
+      console.log("Presionaron bad")
+    }
   }
+
+
   return (
     <div>
-      <Header titulo={curso.nombreCurso} />
-      <Content parts={curso.parts} />
-      <Total parts={curso.parts} />
-    </div >
+      <h1>Give feedback</h1>
+      <div style={{ display: 'inline-block' }}>
+        <Button onclick={() => handleParams("good")} text="good" />
+        <Button onclick={() => handleParams("neutral")} text="neutral" />
+        <Button onclick={() => handleParams("bad")} text="bad" />
+      </div>
+      <h1>statistics</h1>
+      <p>good {good}</p>
+      <p>neutral {neutral}</p>
+      <p>bad {bad}</p>
+    </div>
   )
 }
 
