@@ -8,19 +8,24 @@ const Button = ({ onclick, text }) => {
   )
 }
 
-const Stadistics = ({ good, neutral, bad, feedback, feedbackAverage, goodPercentage }) => {
+const Statistics = ({ good, neutral, bad, feedback, feedbackAverage, goodPercentage }) => {
   return (
     <div>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {feedback}</p>
-      <p>average {feedbackAverage}</p>
-      <p>positive {goodPercentage}%</p>
+      {feedback === 0 ? (
+        <p>No feedback given</p>
+      ) : (
+        <section>
+          <p>good {good}</p>
+          <p>neutral {neutral}</p>
+          <p>bad {bad}</p>
+          <p>all {feedback}</p>
+          <p>average {feedbackAverage}</p>
+          <p>positive {goodPercentage}%</p>
+        </section>
+      )}
     </div>
-  )
+  );
 }
-
 
 const App = () => {
   // guarda los clics de cada botón en su propio estado
@@ -67,7 +72,7 @@ const App = () => {
         <Button onclick={() => handleParams("bad")} text="bad" />
       </div>
       <h1>statistics</h1>
-      <Stadistics
+      <Statistics
         good={good}
         bad={bad}
         neutral={neutral}
