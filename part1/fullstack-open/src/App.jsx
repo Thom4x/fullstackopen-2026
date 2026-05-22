@@ -14,22 +14,36 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const [feedback, setFeedback] = useState([])
 
   const handleParams = (statusValoration) => {
-    if (statusValoration === "good") {
+    if (statusValoration == "good") {
       setGood(good + 1)
-      console.log("Presionaron good")
+      console.log("Agregado good")
+      setFeedback(feedback.concat(1))
     }
     if (statusValoration === "neutral") {
       setNeutral(neutral + 1)
-      console.log("Presionaron neutral")
+      console.log("Agregado neutral")
+      setFeedback(feedback.concat(0))
+
     }
     if (statusValoration === "bad") {
       setBad(bad + 1)
-      console.log("Presionaron bad")
+      console.log("Agregado bad")
+      setFeedback(feedback.concat(-1))
     }
   }
 
+  const averageFeedback = feedback.reduce((acc, num) => acc + num, 0);
+  const feedbackAverage = averageFeedback / feedback.length;
+
+  const goodFeedbacks = feedback.filter((score) => score == 1);
+  const neutralFeedbacks = feedback.filter((score) => score == 0);
+  const badFeedbacks = feedback.filter((score) => score == -1);
+
+  const totalFiltered = goodFeedbacks.length + neutralFeedbacks.length + badFeedbacks.length;
+  const goodPercent = (goodFeedbacks.length / totalFiltered) * 100;
 
   return (
     <div>
@@ -43,6 +57,9 @@ const App = () => {
       <p>good {good}</p>
       <p>neutral {neutral}</p>
       <p>bad {bad}</p>
+      <p>all {feedback.length}</p>
+      <p>average {isNaN(feedbackAverage) ? '0' : feedbackAverage.toFixed(2)}</p>
+      <p>positive {isNaN(goodPercent) ? '0' : goodPercent.toFixed(2)}%</p>
     </div>
   )
 }
