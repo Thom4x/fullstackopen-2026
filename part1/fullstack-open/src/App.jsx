@@ -10,7 +10,7 @@ const Button = ({ onclick, text }) => {
 
 const StatisticLine = ({ text, value }) => {
   return (
-    <p>{text}: {value}</p>
+    <p>{text} {value}</p>
   )
 }
 
@@ -22,15 +22,38 @@ const Statistics = ({ good, neutral, bad, feedback, feedbackAverage, goodPercent
         <p>No feedback given</p>
       ) : (
         <section>
-          <StatisticLine text="good" value={good}></StatisticLine>
-          <StatisticLine text="neutral" value={neutral}></StatisticLine>
-          <StatisticLine text="bad" value={bad}></StatisticLine>
-          <StatisticLine text="feedback" value={feedback}></StatisticLine>
-          <StatisticLine text="Average Feedback" value={feedbackAverage}></StatisticLine>
-          <StatisticLine text="Percentaje Good" value={goodPercentage}></StatisticLine>
+          <table>
+            <tbody>
+              <tr>
+                <td><StatisticLine text="good" /></td>
+                <td><StatisticLine value={good} /></td>
+              </tr>
+              <tr>
+                <td><StatisticLine text="neutral" /></td>
+                <td><StatisticLine value={neutral} /></td>
+              </tr>
+              <tr>
+                <td><StatisticLine text="bad" /></td>
+                <td><StatisticLine value={bad} /></td>
+              </tr>
+              <tr>
+                <td><StatisticLine text="all" /></td>
+                <td><StatisticLine value={feedback} /></td>
+              </tr>
+              <tr>
+                <td><StatisticLine text="average" /></td>
+                <td><StatisticLine value={feedbackAverage} /></td>
+              </tr>
+              <tr>
+                <td><StatisticLine text="positive" /></td>
+                <td><StatisticLine value={goodPercentage} /></td>
+              </tr>
+            </tbody>
+          </table>
         </section>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 }
 
