@@ -8,6 +8,13 @@ const Button = ({ onclick, text }) => {
   )
 }
 
+const StatisticLine = ({ text, value }) => {
+  return (
+    <p>{text}: {value}</p>
+  )
+}
+
+
 const Statistics = ({ good, neutral, bad, feedback, feedbackAverage, goodPercentage }) => {
   return (
     <div>
@@ -15,12 +22,12 @@ const Statistics = ({ good, neutral, bad, feedback, feedbackAverage, goodPercent
         <p>No feedback given</p>
       ) : (
         <section>
-          <p>good {good}</p>
-          <p>neutral {neutral}</p>
-          <p>bad {bad}</p>
-          <p>all {feedback}</p>
-          <p>average {feedbackAverage}</p>
-          <p>positive {goodPercentage}%</p>
+          <StatisticLine text="good" value={good}></StatisticLine>
+          <StatisticLine text="neutral" value={neutral}></StatisticLine>
+          <StatisticLine text="bad" value={bad}></StatisticLine>
+          <StatisticLine text="feedback" value={feedback}></StatisticLine>
+          <StatisticLine text="Average Feedback" value={feedbackAverage}></StatisticLine>
+          <StatisticLine text="Percentaje Good" value={goodPercentage}></StatisticLine>
         </section>
       )}
     </div>
@@ -78,7 +85,7 @@ const App = () => {
         neutral={neutral}
         feedback={feedback.length}
         feedbackAverage={isNaN(feedbackAverage) ? 0 : feedbackAverage.toFixed(2)}
-        goodPercentage={isNaN(goodPercentage) ? 0 : goodPercentage.toFixed(2)} />
+        goodPercentage={isNaN(goodPercentage) ? 0 : `${goodPercentage.toFixed(2)}%`} />
     </div>
   )
 }
