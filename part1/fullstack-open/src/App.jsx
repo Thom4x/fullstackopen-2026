@@ -2,113 +2,29 @@ import React from 'react'
 import { useState } from 'react'
 
 
-const Button = ({ onclick, text }) => {
-  return (
-    <button onClick={onclick}>{text}</button>
-  )
-}
-
-const StatisticLine = ({ text, value }) => {
-  return (
-    <p>{text} {value}</p>
-  )
-}
-
-
-const Statistics = ({ good, neutral, bad, feedback, feedbackAverage, goodPercentage }) => {
-  return (
-    <div>
-      {feedback === 0 ? (
-        <p>No feedback given</p>
-      ) : (
-        <section>
-          <table>
-            <tbody>
-              <tr>
-                <td><StatisticLine text="good" /></td>
-                <td><StatisticLine value={good} /></td>
-              </tr>
-              <tr>
-                <td><StatisticLine text="neutral" /></td>
-                <td><StatisticLine value={neutral} /></td>
-              </tr>
-              <tr>
-                <td><StatisticLine text="bad" /></td>
-                <td><StatisticLine value={bad} /></td>
-              </tr>
-              <tr>
-                <td><StatisticLine text="all" /></td>
-                <td><StatisticLine value={feedback} /></td>
-              </tr>
-              <tr>
-                <td><StatisticLine text="average" /></td>
-                <td><StatisticLine value={feedbackAverage} /></td>
-              </tr>
-              <tr>
-                <td><StatisticLine text="positive" /></td>
-                <td><StatisticLine value={goodPercentage} /></td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-      )
-      }
-    </div >
-  );
-}
-
 const App = () => {
-  // guarda los clics de cada botón en su propio estado
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-  const [feedback, setFeedback] = useState([])
+  const anecdotes = [
+    'If it hurts, do it more often.',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
+    'The only way to go fast, is to go well.'
+  ]
+  const [selected, setSelected] = useState(0)
 
-  const handleParams = (statusValoration) => {
-    if (statusValoration == "good") {
-      setGood(good + 1)
-      console.log("Agregado good")
-      setFeedback(feedback.concat(1))
-    }
-    if (statusValoration === "neutral") {
-      setNeutral(neutral + 1)
-      console.log("Agregado neutral")
-      setFeedback(feedback.concat(0))
+  const randomAnectode = () => {
+    const randomIndex = Math.floor(Math.random() * anecdotes.length);
+    setSelected(randomIndex);
+  };
 
-    }
-    if (statusValoration === "bad") {
-      setBad(bad + 1)
-      console.log("Agregado bad")
-      setFeedback(feedback.concat(-1))
-    }
-  }
-
-  const averageFeedback = feedback.reduce((acc, num) => acc + num, 0);
-  const feedbackAverage = averageFeedback / feedback.length;
-
-  const goodFeedbacks = feedback.filter((score) => score == 1);
-  const neutralFeedbacks = feedback.filter((score) => score == 0);
-  const badFeedbacks = feedback.filter((score) => score == -1);
-
-  const totalFiltered = goodFeedbacks.length + neutralFeedbacks.length + badFeedbacks.length;
-  const goodPercentage = (goodFeedbacks.length / totalFiltered) * 100;
 
   return (
-    <div>
-      <h1>Give feedback</h1>
-      <div style={{ display: 'inline-block' }}>
-        <Button onclick={() => handleParams("good")} text="good" />
-        <Button onclick={() => handleParams("neutral")} text="neutral" />
-        <Button onclick={() => handleParams("bad")} text="bad" />
-      </div>
-      <h1>statistics</h1>
-      <Statistics
-        good={good}
-        bad={bad}
-        neutral={neutral}
-        feedback={feedback.length}
-        feedbackAverage={isNaN(feedbackAverage) ? 0 : feedbackAverage.toFixed(2)}
-        goodPercentage={isNaN(goodPercentage) ? 0 : `${goodPercentage.toFixed(2)}%`} />
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <p>{anecdotes[selected]}</p>
+      <button style={{ width: '120px' }} onClick={randomAnectode}>next anectode</button>
     </div>
   )
 }
