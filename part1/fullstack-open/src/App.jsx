@@ -16,6 +16,7 @@ const App = () => {
     const [selected, setSelected] = useState(0)
     const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));
 
+
     const handleVote = () => {
         const copy = [...votes];
         copy[selected] += 1;
@@ -28,13 +29,24 @@ const App = () => {
         setSelected(randomIndex);
     };
 
+    const maxVotes = Math.max(...votes)
+    const bestIndex = votes.indexOf(maxVotes)
 
+    console.log(bestIndex)
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <h1>Anecdote of the Day</h1>
             <p>{anecdotes[selected]}</p>
             <p>Has {votes[selected]} votes</p>
             <button style={{ width: '120px' }} onClick={handleVote} >vote</button>
             <button style={{ width: '120px' }} onClick={randomAnectode}>next anectode</button>
+            <h1>Anecdote with most votes</h1>
+            {maxVotes === 0 ? <p>No votes yet</p> : (
+                <>
+                    <p>{anecdotes[bestIndex]}</p>
+                    <p>Has {maxVotes} votes</p>
+                </>
+            )}
         </div>
     )
 }
