@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 const Agenda = () => {
     const [persons, setPersons] = useState([])
-    const [newName, setNewName] = useState({ nombre: 'Arto Hellas' })
+    const [newName, setNewName] = useState({ nombre: 'Arto Hellas', phone: '' })
 
     const handlerForm = (event) => {
         event.preventDefault()
@@ -19,13 +19,12 @@ const Agenda = () => {
                 id: Date.now()
             }
             setPersons(persons.concat(nuevoRegistro))
-            setNewName({ nombre: '' })
+            setNewName({ nombre: '', phone: '' })
         }
     }
 
     const handleInputChange = (event) => {
         const { name, value } = event.target
-        // Usamos [name] para actualizar la propiedad dinámica
         setNewName({ ...newName, [name]: value })
     }
 
@@ -39,6 +38,11 @@ const Agenda = () => {
                         name='nombre'
                         value={newName.nombre}
                         onChange={handleInputChange} />
+                    phone: <input
+                        name='phone'
+                        type="number"
+                        value={newName.phone}
+                        onChange={handleInputChange} />
                 </div>
                 <div>
                     <button type='submit'>add</button>
@@ -47,7 +51,7 @@ const Agenda = () => {
             <h2>Numbers</h2>
             <ul>
                 {persons.map((user) =>
-                    <li key={user.id}>{user.nombre}</li>
+                    <li key={user.id}>{`${user.nombre} has a ${user.phone}`}</li>
                 )}
             </ul>
         </div>
