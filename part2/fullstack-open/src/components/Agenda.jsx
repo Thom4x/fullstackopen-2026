@@ -1,59 +1,100 @@
 import React from 'react'
 import { useState } from 'react'
 
+const Filter = ({ searchTerm, onChange }) => {
+    return (
+        <input
+            type="text"
+            value={searchTerm}
+            onChange={onChange} />
+    )
+}
+
+const InputForm = ({ name, type, value, onChange, placeholder }) => {
+    return (
+        <input
+            name={name}
+            type={type}
+            value={value}
+            placeholder={placeholder}
+            onChange={onChange} />
+    )
+}
+
+
+
+const PersonForm = ({ onSubmit, formData, onChange }) => {
+    return (
+        <form onSubmit={onSubmit}>
+            <div>
+                name:
+                <InputForm name='nombre' type='text' value={formData.nombre} onChange={onChange} placeholder='nombre de la persona...' />
+                <br />
+                phone:
+                <InputForm name='phone' type='number' value={formData.phone} onChange={onChange} placeholder='numero telefonico...' />
+            </div>
+            <div>
+                <button type='submit'>add</button>
+            </div>
+        </form>
+    )
+}
+
+const Persons = ({ persons, busqueda }) => {
+    return (
+        <ul>
+            {persons && persons.length > 0 ? (
+                persons.filter(user => user.nombre.toLowerCase().includes(busqueda.toLowerCase())).map((user) =>
+                    <li key={user.id}>{`${user.nombre} - ${user.phone}`}</li>)
+            ) : (
+                <p>No hay personas en la agenda</p>
+            )
+            }
+        </ul>
+    )
+}
+
 const Agenda = () => {
     const [persons, setPersons] = useState([])
-    const [newName, setNewName] = useState({ nombre: 'Arto Hellas', phone: '' })
+    const [newName, setNewName] = useState({ nombre: '', phone: '' })
+    const [busqueda, setBusqueda] = useState('')
 
     const handlerForm = (event) => {
         event.preventDefault()
 
-        const duplicado = persons.some(user => user.nombre === newName.nombre)
-        if (duplicado) {
+        const esDuplicado = persons.some(user => user.nombre === newName.nombre)
+        if (esDuplicado) {
             alert(`${newName.nombre} ya está en la agenda`)
-        } if (newName.nombre.trim() === 'Arto Hellas') {
-            alert('Arto Hellas is already in the agenda')
-        } else {
-            const nuevoRegistro = {
-                ...newName,
-                id: Date.now()
-            }
-            setPersons(persons.concat(nuevoRegistro))
-            setNewName({ nombre: '', phone: '' })
+            return
         }
+        const nuevoRegistro = {
+            ...newName,
+            id: Date.now()
+        }
+        setPersons(persons.concat(nuevoRegistro))
+        setNewName({ nombre: '', phone: '' })
     }
 
+
     const handleInputChange = (event) => {
+        console.log("Nombre del campo:", event.target.name);
+        console.log("Valor nuevo:", event.target.value);
+
         const { name, value } = event.target
         setNewName({ ...newName, [name]: value })
     }
 
-
     return (
         <div>
             <h2>Phonebook</h2>
-            <form onSubmit={handlerForm}>
-                <div>
-                    name: <input
-                        name='nombre'
-                        value={newName.nombre}
-                        onChange={handleInputChange} />
-                    phone: <input
-                        name='phone'
-                        type="number"
-                        value={newName.phone}
-                        onChange={handleInputChange} />
-                </div>
-                <div>
-                    <button type='submit'>add</button>
-                </div>
-            </form>
+            <Filter searchTerm={busqueda} onChange={(e) => setBusqueda(e.target.value)} />
+
+            <h2>Add a New</h2>
+            <PersonForm onSubmit={handlerForm} formData={newName} onChange={handleInputChange} />
+
             <h2>Numbers</h2>
-            <ul>
-                {persons.map((user) =>
-                    <li key={user.id}>{`${user.nombre} has a ${user.phone}`}</li>
-                )}
-            </ul>
+            <Persons busqueda={busqueda} persons={persons} />
+
         </div>
     )
 }
