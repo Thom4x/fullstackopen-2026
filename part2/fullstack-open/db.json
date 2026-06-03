@@ -3,22 +3,110 @@
         {
             "nombre": "Arto Hellas",
             "phone": "040-123456",
-            "id": 1
+            "id": "1"
         },
         {
             "nombre": "Ada Lovelace",
             "phone": "39-44-5323523",
-            "id": 2
+            "id": "2"
         },
         {
             "nombre": "Dan Abramov",
             "phone": "12-43-234345",
-            "id": 3
+            "id": "3"
         },
         {
             "nombre": "Mary Poppendieck",
             "phone": "39-23-6423122",
-            "id": 4
+            "id": "4"
+        },
+        {
+            "nombre": "Pedro Lopez",
+            "phone": "32042411",
+            "id": "ULhNIgDFhwA"
+        },
+        {
+            "nombre": "tomas",
+            "phone": "312566161",
+            "id": "04YqK2MpeUk"
+        },
+        {
+            "nombre": "Manuel Pedraza",
+            "phone": "42300441",
+            "id": "VNxOueNwHqg"
+        },
+        {
+            "nombre": "Roger Martienz",
+            "phone": "434114",
+            "id": "sH5fXfmvLpk"
+        },
+        {
+            "nombre": "Sergio perez",
+            "phone": "842124",
+            "id": "kgMJgzGiLLY"
+        },
+        {
+            "nombre": "Ana Lopez",
+            "phone": "49242214",
+            "id": "v4va5sU43cQ"
+        },
+        {
+            "nombre": "Carlos Torres",
+            "phone": "4323003",
+            "id": "9im9UGxgezE"
+        },
+        {
+            "nombre": "Pablo Gavi",
+            "phone": "32044001",
+            "id": "4sPDtH53lQo"
         }
-    ]
+    ],
+    "notes": [
+        {
+            "id": "1",
+            "content": "HTML is easy",
+            "important": true
+        },
+        {
+            "id": "2",
+            "content": "Browser can execute only JavaScript",
+            "important": false
+        },
+        {
+            "id": "3",
+            "content": "GET and POST are the most important methods of HTTP protocol",
+            "important": true
+        },
+        {
+            "content": "Axios OR Fetch, can use Axios",
+            "important": true,
+            "id": "2tpGksVAnwI"
+        },
+        {
+            "content": "Axios OR Fetch, can use Axios",
+            "important": true,
+            "id": "CN_Es0yn1s4"
+        },
+        {
+            "content": "saa",
+            "important": true,
+            "id": "lOJsQxBAVZU"
+        },
+        {
+            "content": "",
+            "important": false,
+            "id": "ddBd63C6q_g"
+        },
+        {
+            "content": "",
+            "important": true,
+            "id": "ZaF_QMqVlyQ"
+        },
+        {
+            "content": "te voy a matar pa",
+            "important": false,
+            "id": "jN4490INhz0"
+        }
+    ],
+    "$schema": "./node_modules/json-server/schema.json"
 }

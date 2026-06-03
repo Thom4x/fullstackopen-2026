@@ -45,8 +45,8 @@ const Persons = ({ persons, busqueda }) => {
     return (
         <ul>
             {persons && persons.length > 0 ? (
-                persons.filter(user => user.nombre.toLowerCase().includes(busqueda.toLowerCase())).map((user) =>
-                    <li key={user.id}>{`${user.nombre} - ${user.phone}`}</li>)
+                persons.filter(user => user.nombre.toLowerCase().includes(busqueda.toLowerCase())).map((user, i) =>
+                    <li key={i}>{`${user.nombre} - ${user.phone}`}</li>)
             ) : (
                 <p>No hay personas en la agenda</p>
             )
@@ -60,21 +60,6 @@ const Agenda = () => {
     const [newName, setNewName] = useState({ nombre: '', phone: '' })
     const [busqueda, setBusqueda] = useState('')
 
-    const testConn = () => {
-        console.log("Start conn")
-        axios.get("http://localhost:3001/persons").then((response) => {
-            console.log(response)
-            setPersons(response.data)
-        }).catch((error) => {
-            console.error("Error fetching data:", error)
-        }, setTimeout(() => {
-            console.log("Retrying connection...")
-        }, 1000))
-    }
-    useEffect(() => {
-        testConn()
-    }, [])
-
     const handlerForm = (event) => {
         event.preventDefault()
 
@@ -87,8 +72,14 @@ const Agenda = () => {
             ...newName,
             id: Date.now()
         }
-        setPersons(persons.concat(nuevoRegistro))
-        setNewName({ nombre: '', phone: '' })
+        axios.post('http://localhost:3001/persons/', nuevoRegistro)
+            .then((response) => {
+                console.log(response.data);
+                setPersons(persons.concat(response.data));
+                setNewName({ nombre: '', phone: '' });
+            }).catch((error) => {
+                console.log("Error..", error);
+            })
     }
 
 
