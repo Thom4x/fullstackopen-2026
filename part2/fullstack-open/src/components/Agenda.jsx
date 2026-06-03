@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import personServices from '../services/persons.js'
 
 const Filter = ({ searchTerm, onChange }) => {
     return (
@@ -72,13 +73,13 @@ const Agenda = () => {
             ...newName,
             id: Date.now()
         }
-        axios.post('http://localhost:3001/persons/', nuevoRegistro)
-            .then((response) => {
-                console.log(response.data);
-                setPersons(persons.concat(response.data));
-                setNewName({ nombre: '', phone: '' });
+        personServices
+            .postData(nuevoRegistro)
+            .then((newData) => {
+                setPersons(persons.concat(newData))
+                setNewName({ nombre: '', phone: '' })
             }).catch((error) => {
-                console.log("Error..", error);
+                console.log("Error fatal", error)
             })
     }
 
