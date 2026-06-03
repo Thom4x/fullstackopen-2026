@@ -1,5 +1,6 @@
 import React from 'react'
-import { useState } from 'react'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
 
 const Filter = ({ searchTerm, onChange }) => {
     return (
@@ -58,6 +59,21 @@ const Agenda = () => {
     const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState({ nombre: '', phone: '' })
     const [busqueda, setBusqueda] = useState('')
+
+    const testConn = () => {
+        console.log("Start conn")
+        axios.get("http://localhost:3001/persons").then((response) => {
+            console.log(response)
+            setPersons(response.data)
+        }).catch((error) => {
+            console.error("Error fetching data:", error)
+        }, setTimeout(() => {
+            console.log("Retrying connection...")
+        }, 1000))
+    }
+    useEffect(() => {
+        testConn()
+    }, [])
 
     const handlerForm = (event) => {
         event.preventDefault()
