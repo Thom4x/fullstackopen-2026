@@ -42,12 +42,13 @@ const PersonForm = ({ onSubmit, formData, onChange }) => {
     )
 }
 
-const Persons = ({ persons, busqueda }) => {
+const Persons = ({ persons, busqueda, deletePerson }) => {
     return (
         <ul>
             {persons && persons.length > 0 ? (
-                persons.filter(user => user.nombre.toLowerCase().includes(busqueda.toLowerCase())).map((user, i) =>
-                    <li key={i}>{`${user.nombre} - ${user.phone}`}</li>)
+                persons.filter(user => user.nombre.toLowerCase().includes(busqueda.toLowerCase())).map((user) =>
+                    <li key={user.id}>{`${user.nombre} - ${user.phone} - ${user.id}`} <button onClick={() => deletePerson(user.id)}>Delete</button> </li>
+                )
             ) : (
                 <p>No hay personas en la agenda</p>
             )
@@ -74,13 +75,28 @@ const Agenda = () => {
             id: Date.now()
         }
         personServices
-            .postData(nuevoRegistro)
+            .create(nuevoRegistro)
             .then((newData) => {
                 setPersons(persons.concat(newData))
                 setNewName({ nombre: '', phone: '' })
             }).catch((error) => {
                 console.log("Error fatal", error)
             })
+    }
+
+    const handleDelete = (id) => {
+        if (window.confirm(`Deseas eliminar al usuario ${persons.find(p => p.id === id)?.nombre}?`)) {
+            personServices
+                .deleteData(id)
+                .then((dataDelete) => {
+                    console.log(dataDelete)
+                    setPersons(persons.filter(p => p.id !== id))
+                }).catch((error) => {
+                    console.log("error en...", error)
+                })
+        } else {
+            console.log("Eliminación cancelada")
+        }
     }
 
 
@@ -101,7 +117,7 @@ const Agenda = () => {
             <PersonForm onSubmit={handlerForm} formData={newName} onChange={handleInputChange} />
 
             <h2>Numbers</h2>
-            <Persons busqueda={busqueda} persons={persons} />
+            <Persons busqueda={busqueda} persons={persons} deletePerson={handleDelete} />
 
         </div>
     )
