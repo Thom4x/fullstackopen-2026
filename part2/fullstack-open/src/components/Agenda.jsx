@@ -62,26 +62,50 @@ const Agenda = () => {
     const [newName, setNewName] = useState({ nombre: '', phone: '' })
     const [busqueda, setBusqueda] = useState('')
 
+
+    useEffect(() => {
+        personServices
+            .getAll()
+            .then((data) => {
+                setPersons(data)
+            })
+            .catch((error) => {
+                console.log("Error al obtener los datos", error)
+            })
+    }, [])
+
+
     const handlerForm = (event) => {
         event.preventDefault()
 
-        const esDuplicado = persons.some(user => user.nombre === newName.nombre)
-        if (esDuplicado) {
-            alert(`${newName.nombre} ya está en la agenda`)
-            return
-        }
         const nuevoRegistro = {
             ...newName,
             id: Date.now()
         }
-        personServices
-            .create(nuevoRegistro)
-            .then((newData) => {
-                setPersons(persons.concat(newData))
-                setNewName({ nombre: '', phone: '' })
-            }).catch((error) => {
-                console.log("Error fatal", error)
-            })
+
+        const usuarioEncontrado = persons.find(user => user.nombre === newName.nombre);
+
+        if (usuarioEncontrado) {
+            if (window.confirm(`${newName.nombre} ya está agregada, ¿Deseas actualizar su número telefónico?`)) {
+                personServices
+                    .updateData(usuarioEncontrado.id, nuevoRegistro)
+                    .then((updateData) => {
+                        setPersons(persons.map(p => p.id === usuarioEncontrado.id ? updateData : p))
+                        setNewName({ nombre: '', phone: '' })
+                    }).catch((error) => {
+                        console.log('error', error);
+                    })
+            }
+        } else {
+            personServices
+                .create(nuevoRegistro)
+                .then((newData) => {
+                    setPersons(persons.concat(newData))
+                    setNewName({ nombre: '', phone: '' })
+                }).catch((error) => {
+                    console.log("Error fatal", error)
+                })
+        }
     }
 
     const handleDelete = (id) => {
@@ -118,7 +142,7 @@ const Agenda = () => {
 
             <h2>Numbers</h2>
             <Persons busqueda={busqueda} persons={persons} deletePerson={handleDelete} />
-
+            <button onClick={() => personServices.updateData(1, { nombre: "Arto Hellas", phone: "555", id: 1 })}>UPDATE</button>
         </div>
     )
 }
