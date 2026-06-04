@@ -1,7 +1,19 @@
 import React from 'react'
 import axios from 'axios'
+import '../App.css'
 import { useState, useEffect } from 'react'
 import personServices from '../services/persons.js'
+
+const Message = ({ message }) => {
+    if (message === '') {
+        return null
+    }
+    return (
+        <div className='exit'>
+            {message}
+        </div>
+    )
+}
 
 const Filter = ({ searchTerm, onChange }) => {
     return (
@@ -61,7 +73,7 @@ const Agenda = () => {
     const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState({ nombre: '', phone: '' })
     const [busqueda, setBusqueda] = useState('')
-
+    const [message, setMessage] = useState('')
 
     useEffect(() => {
         personServices
@@ -92,8 +104,12 @@ const Agenda = () => {
                     .then((updateData) => {
                         setPersons(persons.map(p => p.id === usuarioEncontrado.id ? updateData : p))
                         setNewName({ nombre: '', phone: '' })
+                        setMessage(`${newName.nombre} actualizado correctamente`)
+                        setTimeout(() => {
+                            setMessage('')
+                        }, 3000);
                     }).catch((error) => {
-                        console.log('error', error);
+                        console.log('error', error)
                     })
             }
         } else {
@@ -102,6 +118,10 @@ const Agenda = () => {
                 .then((newData) => {
                     setPersons(persons.concat(newData))
                     setNewName({ nombre: '', phone: '' })
+                    setMessage(`${newName.nombre} agregado correctamente`)
+                    setTimeout(() => {
+                        setMessage('')
+                    }, 3000);
                 }).catch((error) => {
                     console.log("Error fatal", error)
                 })
@@ -135,8 +155,8 @@ const Agenda = () => {
     return (
         <div>
             <h2>Phonebook</h2>
+            <Message message={message} />
             <Filter searchTerm={busqueda} onChange={(e) => setBusqueda(e.target.value)} />
-
             <h2>Add a New</h2>
             <PersonForm onSubmit={handlerForm} formData={newName} onChange={handleInputChange} />
 
