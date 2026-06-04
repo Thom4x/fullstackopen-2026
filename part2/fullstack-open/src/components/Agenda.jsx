@@ -4,15 +4,17 @@ import '../App.css'
 import { useState, useEffect } from 'react'
 import personServices from '../services/persons.js'
 
-const Message = ({ message }) => {
+const Message = ({ message, status }) => {
     if (message === '') {
         return null
     }
+    const className = status === 'success' ? 'exit' : 'error';
+
     return (
-        <div className='exit'>
+        <div className={className}>
             {message}
         </div>
-    )
+    );
 }
 
 const Filter = ({ searchTerm, onChange }) => {
@@ -74,6 +76,7 @@ const Agenda = () => {
     const [newName, setNewName] = useState({ nombre: '', phone: '' })
     const [busqueda, setBusqueda] = useState('')
     const [message, setMessage] = useState('')
+    const [messageType, setMessageType] = useState('success');
 
     useEffect(() => {
         personServices
@@ -109,7 +112,12 @@ const Agenda = () => {
                             setMessage('')
                         }, 3000);
                     }).catch((error) => {
-                        console.log('error', error)
+                        setMessageType('error')
+                        setMessage(`Information of ${newName.nombre} has already been removed from server`)
+                        setTimeout(() => {
+                            setMessage('')
+                            setMessageType('success')
+                        }, 2000);
                     })
             }
         } else {
@@ -118,12 +126,17 @@ const Agenda = () => {
                 .then((newData) => {
                     setPersons(persons.concat(newData))
                     setNewName({ nombre: '', phone: '' })
-                    setMessage(`${newName.nombre} agregado correctamente`)
+                    setMessage(`${newName.nombre} agreg ado correctamente`)
                     setTimeout(() => {
                         setMessage('')
                     }, 3000);
                 }).catch((error) => {
-                    console.log("Error fatal", error)
+                    setMessageType('error')
+                    setMessage(`Error intentando añadir al usuario`)
+                    setTimeout(() => {
+                        setMessage('')
+                        setMessageType('success')
+                    }, 3000);
                 })
         }
     }
@@ -155,7 +168,7 @@ const Agenda = () => {
     return (
         <div>
             <h2>Phonebook</h2>
-            <Message message={message} />
+            <Message message={message} status={messageType} />
             <Filter searchTerm={busqueda} onChange={(e) => setBusqueda(e.target.value)} />
             <h2>Add a New</h2>
             <PersonForm onSubmit={handlerForm} formData={newName} onChange={handleInputChange} />
