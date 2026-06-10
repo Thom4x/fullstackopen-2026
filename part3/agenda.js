@@ -4,8 +4,14 @@ const logger = require('./middlewares/loger')
 
 const app = express()
 app.use(express.json())
-app.use(morgan('tiny'))
-app.use(logger)
+
+morgan.token('body', (req) => {
+    return JSON.stringify(req.body)
+})
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+
+//app.use(logger)
 
 
 let phoneBook = [
