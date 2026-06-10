@@ -25,10 +25,30 @@ let phoneBook = [
     }
 ]
 
+
+
 app.get('/api/persons', (request, response) => {
     response.json(phoneBook)
+})
+
+app.get('/info', (request, response) => {
+    const getDate = new Date()
+    const formatoDate = getDate.toString();
+    response.send(`Phonebook has info for ${phoneBook.length} people<br>${formatoDate}`);
+})
+
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const person = phoneBook.find(userid => userid.id === id)
+
+    if (person) {
+        response.json(person)
+    } else {
+        response.status(404).json({ error: "Missing.." })
+    }
 })
 
 const PORT = 3001
 app.listen(PORT)
 console.log("Server running in", PORT);
+
