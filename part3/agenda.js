@@ -82,8 +82,14 @@ app.post('/api/persons', (request, response) => {
         number: body.number
     }
 
+    if (phoneBook.find(usr => usr.name === newObject.name)) {
+        return response.status(400).json({
+            error: 'This person is already added'
+        })
+    }
     phoneBook = phoneBook.concat(newObject)
     response.json(newObject)
+
 })
 
 const PORT = 3001
