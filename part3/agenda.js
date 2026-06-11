@@ -1,15 +1,16 @@
 const express = require('express')
 const morgan = require('morgan')
 const logger = require('./middlewares/loger')
-
+const cors = require('cors')
 const app = express()
+app.use(cors()) // se habilita el middleware cors para permitir solicitudes desde cualquier origen
 app.use(express.json())
 
 morgan.token('body', (req) => {
-    return JSON.stringify(req.body)
+    return JSON.stringify(req.body) // se convierte el cuerpo de la petición a una cadena JSON para que se pueda mostrar en los logs
 })
 
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body')) // se configura morgan para que muestre el método, la URL, el estado, el tamaño de la respuesta, el tiempo de respuesta y el cuerpo de la petición en los logs
 
 //app.use(logger)
 
@@ -110,7 +111,7 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT)
 console.log("Server running in", PORT);
 
